@@ -10,7 +10,8 @@ public class BibliotecaApp {
 
   private ApplicationService applicationService;
   private Menu bookList;
-  private Menu checkOut;
+  private Menu checkOutBook;
+  private Menu returnBook;
   private Menu quit;
 
   private final Scanner scanner = new Scanner(System.in);
@@ -22,12 +23,14 @@ public class BibliotecaApp {
   public BibliotecaApp() {
 
     bookList = new Menu.Builder().code(Menu.OPTIONAL_BOOKLIST).title("List of books").build();
-    checkOut = new Menu.Builder().code(Menu.OPTIONAL_CHECKOUT).title("Checkout a book").build();
+    checkOutBook = new Menu.Builder().code(Menu.OPTIONAL_CHECKOUT).title("Checkout a book").build();
+    returnBook = new Menu.Builder().code(Menu.OPTIONAL_RETURN).title("Return abook").build();
     quit = new Menu.Builder().code(Menu.OPTIONAL_QUIT).title("Quit").build();
 
     applicationService = new ApplicationService.Builder()
         .addMenu(bookList)
-        .addMenu(checkOut)
+        .addMenu(checkOutBook)
+        .addMenu(returnBook)
         .addMenu(quit)
         .build();
 
@@ -39,10 +42,18 @@ public class BibliotecaApp {
       }
     });
 
-    checkOut.setSelectListener(new OnMenuSelectListener() {
+    checkOutBook.setSelectListener(new OnMenuSelectListener() {
       @Override
       public void onMenuSelect(Menu menu) {
         checkOutBook();
+        inputOptional();
+      }
+    });
+
+    returnBook.setSelectListener(new OnMenuSelectListener() {
+      @Override
+      public void onMenuSelect(Menu menu) {
+        returnBook();
         inputOptional();
       }
     });
@@ -68,6 +79,22 @@ public class BibliotecaApp {
     } while (menu == null);
 
     menu.select();
+  }
+
+  public void returnBook() {
+    System.out.println("Book id:");
+    while (scanner.hasNext()) {
+      long bookId = scanner.nextLong();
+      Book selectedBook = applicationService.findBookById(bookId);
+      if (applicationService.validReturnedBook(selectedBook)) {
+        applicationService.changeBookStatus(selectedBook);
+        System.out.println("Thank you for returning the book.");
+        return;
+      } else {
+        System.out.println("That is not a valid book to return.");
+        System.out.println("Book id:");
+      }
+    }
   }
 
   public void checkOutBook() {

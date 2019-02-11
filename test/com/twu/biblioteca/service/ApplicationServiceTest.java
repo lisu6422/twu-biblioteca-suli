@@ -42,4 +42,18 @@ public class ApplicationServiceTest {
     List<Book> result = service.findAllBookList();
     assertEquals(4, result.size());
   }
+
+  @Test
+  public void shouldReturnTrueWhenReturnedBookIsValid() {
+    Book book = new Book(1L, "Life of Pi", "Anand Beck", "2010", true);
+    boolean result = service.validReturnedBook(book);
+    assertEquals(true, result);
+  }
+
+  @Test
+  public void shouldReturnFalseWhenReturnedBookIsReturned() {
+    Book book = new Book(1L, "Life of Pi", "Anand Beck", "2010", false);
+    boolean result = service.validReturnedBook(book);
+    assertEquals(false, result);
+  }
 }

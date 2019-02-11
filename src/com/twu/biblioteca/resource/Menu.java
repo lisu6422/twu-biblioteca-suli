@@ -4,6 +4,7 @@ public class Menu {
 
   public static final int OPTIONAL_BOOKLIST = 1;
   public static final int OPTIONAL_CHECKOUT = 2;
+  public static final int OPTIONAL_RETURN = 3;
   public static final int OPTIONAL_QUIT = 0;
 
   private Integer code;

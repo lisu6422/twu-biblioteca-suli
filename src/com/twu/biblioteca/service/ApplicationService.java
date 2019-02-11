@@ -33,6 +33,10 @@ public class ApplicationService {
     return book != null && !book.getCheckedOut();
   }
 
+  public boolean validReturnedBook(Book book) {
+    return book != null && book.getCheckedOut();
+  }
+
   public void changeBookStatus(Book book) {
     book.setCheckedOut(!book.getCheckedOut());
   }
