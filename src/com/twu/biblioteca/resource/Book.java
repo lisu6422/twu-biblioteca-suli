@@ -6,14 +6,14 @@ public class Book {
   private String title;
   private String author;
   private String publicationYear;
-  private String status;
+  private Boolean isCheckedOut;
 
-  public Book(Long id, String title, String author, String publicationYear, String status) {
+  public Book(Long id, String title, String author, String publicationYear, Boolean isCheckedOut) {
     this.id = id;
     this.title = title;
     this.author = author;
     this.publicationYear = publicationYear;
-    this.status = status;
+    this.isCheckedOut = isCheckedOut;
   }
 
   public String getTitle() {
@@ -24,12 +24,12 @@ public class Book {
     this.title = title;
   }
 
-  public String getStatus() {
-    return status;
+  public Boolean getCheckedOut() {
+    return isCheckedOut;
   }
 
-  public void setStatus(String status) {
-    this.status = status;
+  public void setCheckedOut(Boolean checkedOut) {
+    isCheckedOut = checkedOut;
   }
 
   public Long getId() {
@@ -42,6 +42,6 @@ public class Book {
         ", title='" + title + '\'' +
         ", author='" + author + '\'' +
         ", publicationYear='" + publicationYear + '\'' +
-        ", status='" + status + '\'' + '\n';
+        ", isCheckedOut='" + isCheckedOut + '\'' + '\n';
   }
 }

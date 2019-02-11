@@ -1,54 +1,82 @@
 package com.twu.biblioteca;
 
-import com.twu.biblioteca.resource.BibliotecaResource;
 import com.twu.biblioteca.resource.Book;
+import com.twu.biblioteca.resource.Menu;
+import com.twu.biblioteca.resource.Menu.OnMenuSelectListener;
+import com.twu.biblioteca.service.ApplicationService;
 import java.util.Scanner;
 
 public class BibliotecaApp {
 
-  private static final String OPTIONAL_BOOKLIST = "1";
-  private static final String OPTIONAL_CHECKOUT = "2";
-  private static final String OPTIONAL_QUIT = "QUIT";
-  private static BibliotecaResource resource = BibliotecaResource.getInstance();
+  private ApplicationService applicationService;
+  private Menu bookList;
+  private Menu checkOut;
+  private Menu quit;
 
+  private final Scanner scanner = new Scanner(System.in);
 
   public static void main(String[] args) {
-    printWelcomeMessage();
-
-    printMenu();
-
-    Scanner scan = new Scanner(System.in);
-    while (true) {
-      executeMenuSelection(scan);
-    }
+    new BibliotecaApp().start();
   }
 
-  private static void executeMenuSelection(Scanner scan) {
-    if (scan.hasNext()) {
-      switch (scan.next()) {
-        case OPTIONAL_BOOKLIST:
-          printAllBookList();
-          break;
-        case OPTIONAL_CHECKOUT:
-          checkOutBook(scan);
-          break;
-        case OPTIONAL_QUIT:
-          scan.close();
-          break;
-        default:
-          System.out.println("Please select a valid option!");
+  public BibliotecaApp() {
+
+    bookList = new Menu.Builder().code(Menu.OPTIONAL_BOOKLIST).title("List of books").build();
+    checkOut = new Menu.Builder().code(Menu.OPTIONAL_CHECKOUT).title("Checkout a book").build();
+    quit = new Menu.Builder().code(Menu.OPTIONAL_QUIT).title("Quit").build();
+
+    applicationService = new ApplicationService.Builder()
+        .addMenu(bookList)
+        .addMenu(checkOut)
+        .addMenu(quit)
+        .build();
+
+    bookList.setSelectListener(new OnMenuSelectListener() {
+      @Override
+      public void onMenuSelect(Menu menu) {
+        printAllBookList();
+        inputOptional();
       }
-    }
+    });
+
+    checkOut.setSelectListener(new OnMenuSelectListener() {
+      @Override
+      public void onMenuSelect(Menu menu) {
+        checkOutBook();
+        inputOptional();
+      }
+    });
+
+    quit.setSelectListener(new OnMenuSelectListener() {
+      @Override
+      public void onMenuSelect(Menu menu) {
+        applicationService.stop();
+      }
+    });
   }
 
-  private static void checkOutBook(Scanner scan) {
+  private void start() {
+    printWelcomeMessage();
+    inputOptional();
+  }
+
+  public void inputOptional() {
+    Menu menu;
+    do {
+      printMenu();
+      menu = applicationService.getOptionalMenu(scanner.nextInt());
+    } while (menu == null);
+
+    menu.select();
+  }
+
+  public void checkOutBook() {
     System.out.println("Book id:");
-    while (scan.hasNext()) {
-      long boolId = scan.nextLong();
-      Book selectedBook = resource.getBookList().stream()
-          .filter(book -> book.getId().equals(boolId)).findFirst().orElse(null);
-      if (selectedBook != null && selectedBook.getStatus().equals("returned")) {
-        selectedBook.setStatus("checked out");
+    while (scanner.hasNext()) {
+      long bookId = scanner.nextLong();
+      Book selectedBook = applicationService.findBookById(bookId);
+      if (applicationService.validCheckedOutBook(selectedBook)) {
+        applicationService.changeBookStatus(selectedBook);
         System.out.println("Thank you! Enjoy the book.");
         return;
       } else {
@@ -58,20 +86,17 @@ public class BibliotecaApp {
     }
   }
 
-  private static void printMenu() {
+  private void printMenu() {
     System.out.println("*************menu*************");
-    System.out.println(String.format("[%s] List of books", OPTIONAL_BOOKLIST));
-    System.out.println(String.format("[%s] Check out a book", OPTIONAL_CHECKOUT));
-    System.out.println(String.format("[%s] Exit application", OPTIONAL_QUIT));
+    applicationService.getMenus().forEach(System.out::println);
   }
 
-  private static void printAllBookList() {
+  private void printAllBookList() {
     System.out.println("All library books: ");
-    resource.getBookList().stream().filter(book -> book.getStatus().equals("returned"))
-        .forEach(System.out::print);
+    applicationService.findAllBookList().forEach(System.out::println);
   }
 
-  private static void printWelcomeMessage() {
+  private void printWelcomeMessage() {
     System.out
         .println("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!");
   }
