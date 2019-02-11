@@ -25,24 +25,12 @@ public class BibliotecaApp {
 
   public BibliotecaApp() {
 
-    bookList = new Menu.Builder().code(Menu.OPTIONAL_BOOKLIST).title("List of books").build();
-    checkOutBook = new Menu.Builder().code(Menu.OPTIONAL_CHECKOUTBOOK).title("Checkout a book")
-        .build();
-    returnBook = new Menu.Builder().code(Menu.OPTIONAL_RETURNBOOK).title("Return a book").build();
-    movieList = new Menu.Builder().code(Menu.OPTIONAL_MOVIELIST).title("List of movies").build();
-    checkOutMovie = new Menu.Builder().code(Menu.OPTIONAL_CHECKOUTMOVIE).title("Checkout a movie")
-        .build();
-    quit = new Menu.Builder().code(Menu.OPTIONAL_QUIT).title("Quit").build();
+    buildMenu();
 
-    applicationService = new ApplicationService.Builder()
-        .addMenu(bookList)
-        .addMenu(checkOutBook)
-        .addMenu(returnBook)
-        .addMenu(movieList)
-        .addMenu(checkOutMovie)
-        .addMenu(quit)
-        .build();
+    setSelectListener();
+  }
 
+  private void setSelectListener() {
     bookList.setSelectListener(new OnMenuSelectListener() {
       @Override
       public void onMenuSelect(Menu menu) {
@@ -89,6 +77,26 @@ public class BibliotecaApp {
         applicationService.stop();
       }
     });
+  }
+
+  private void buildMenu() {
+    bookList = new Menu.Builder().code(Menu.OPTIONAL_BOOKLIST).title("List of books").build();
+    checkOutBook = new Menu.Builder().code(Menu.OPTIONAL_CHECKOUTBOOK).title("Checkout a book")
+        .build();
+    returnBook = new Menu.Builder().code(Menu.OPTIONAL_RETURNBOOK).title("Return a book").build();
+    movieList = new Menu.Builder().code(Menu.OPTIONAL_MOVIELIST).title("List of movies").build();
+    checkOutMovie = new Menu.Builder().code(Menu.OPTIONAL_CHECKOUTMOVIE).title("Checkout a movie")
+        .build();
+    quit = new Menu.Builder().code(Menu.OPTIONAL_QUIT).title("Quit").build();
+
+    applicationService = new ApplicationService.Builder()
+        .addMenu(bookList)
+        .addMenu(checkOutBook)
+        .addMenu(returnBook)
+        .addMenu(movieList)
+        .addMenu(checkOutMovie)
+        .addMenu(quit)
+        .build();
   }
 
   private void start() {
