@@ -43,13 +43,17 @@ public class BibliotecaApp {
 
   private static void checkOutBook(Scanner scan) {
     System.out.println("Book id:");
-    if (scan.hasNext()) {
+    while (scan.hasNext()) {
       long boolId = scan.nextLong();
       Book selectedBook = resource.getBookList().stream()
           .filter(book -> book.getId().equals(boolId)).findFirst().orElse(null);
       if (selectedBook != null && selectedBook.getStatus().equals("returned")) {
         selectedBook.setStatus("checked out");
         System.out.println("Thank you! Enjoy the book.");
+        return;
+      } else {
+        System.out.println("Sorry, that book is not available.");
+        System.out.println("Book id:");
       }
     }
   }
