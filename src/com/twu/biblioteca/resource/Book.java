@@ -6,12 +6,14 @@ public class Book {
   private String title;
   private String author;
   private String publicationYear;
+  private String status;
 
-  public Book(Long id, String title, String author, String publicationYear) {
+  public Book(Long id, String title, String author, String publicationYear, String status) {
     this.id = id;
     this.title = title;
     this.author = author;
     this.publicationYear = publicationYear;
+    this.status = status;
   }
 
   public String getTitle() {
@@ -22,11 +24,20 @@ public class Book {
     this.title = title;
   }
 
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
   @Override
   public String toString() {
     return "id='" + id + '\'' +
         ", title='" + title + '\'' +
         ", author='" + author + '\'' +
-        ", publicationYear='" + publicationYear + '\'' + '\n';
+        ", publicationYear='" + publicationYear + '\'' +
+        ", status='" + status + '\'' + '\n';
   }
 }
