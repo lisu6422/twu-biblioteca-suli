@@ -5,7 +5,8 @@ import java.util.Scanner;
 
 public class BibliotecaApp {
 
-  private static final int OPTIONAL_1 = 1;
+  private static final String OPTIONAL_1 = "1";
+  private static final String OPTIONAL_QUIT = "QUIT";
   private static BibliotecaResource resource = BibliotecaResource.getInstance();
 
 
@@ -19,8 +20,8 @@ public class BibliotecaApp {
   }
 
   private static void executeMenuSelection(Scanner scan) {
-    if (scan.hasNextInt()) {
-      switch (scan.nextInt()) {
+    if (scan.hasNext()) {
+      switch (scan.next()) {
         case OPTIONAL_1:
           printAllBookList();
         default:
