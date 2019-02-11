@@ -63,7 +63,8 @@ public class BibliotecaApp {
 
   private static void printAllBookList() {
     System.out.println("All library books: ");
-    resource.getBookList().forEach(System.out::print);
+    resource.getBookList().stream().filter(book -> book.getStatus().equals("returned"))
+        .forEach(System.out::print);
   }
 
   private static void printWelcomeMessage() {
