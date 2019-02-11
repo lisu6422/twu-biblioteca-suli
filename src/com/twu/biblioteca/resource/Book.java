@@ -32,6 +32,10 @@ public class Book {
     this.status = status;
   }
 
+  public Long getId() {
+    return id;
+  }
+
   @Override
   public String toString() {
     return "id='" + id + '\'' +
