@@ -48,6 +48,7 @@ public class BibliotecaApp {
       resource.getBookList().stream().map(book -> {
         if (book.getId().equals(boolId)) {
           book.setStatus("checked out");
+          System.out.println("Thank you! Enjoy the book.");
         }
         return book;
       }).collect(Collectors.toList());
