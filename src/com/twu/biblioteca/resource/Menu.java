@@ -3,8 +3,9 @@ package com.twu.biblioteca.resource;
 public class Menu {
 
   public static final int OPTIONAL_BOOKLIST = 1;
-  public static final int OPTIONAL_CHECKOUT = 2;
-  public static final int OPTIONAL_RETURN = 3;
+  public static final int OPTIONAL_CHECKOUTBOOK = 2;
+  public static final int OPTIONAL_RETURNBOOK = 3;
+  public static final int OPTIONAL_MOVIELIST = 4;
   public static final int OPTIONAL_QUIT = 0;
 
   private Integer code;

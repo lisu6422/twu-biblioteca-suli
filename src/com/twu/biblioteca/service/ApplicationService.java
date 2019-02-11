@@ -3,6 +3,7 @@ package com.twu.biblioteca.service;
 import com.twu.biblioteca.resource.BibliotecaResource;
 import com.twu.biblioteca.resource.Book;
 import com.twu.biblioteca.resource.Menu;
+import com.twu.biblioteca.resource.Movie;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +44,11 @@ public class ApplicationService {
 
   public List<Book> findAllBookList() {
     return resource.getBookList().stream().filter(book -> !book.getCheckedOut())
+        .collect(Collectors.toList());
+  }
+
+  public List<Movie> findAllMovieList() {
+    return resource.getMovieList().stream().filter(movie -> !movie.getCheckedOut())
         .collect(Collectors.toList());
   }
 

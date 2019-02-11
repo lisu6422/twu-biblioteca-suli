@@ -12,6 +12,7 @@ public class BibliotecaApp {
   private Menu bookList;
   private Menu checkOutBook;
   private Menu returnBook;
+  private Menu movieList;
   private Menu quit;
 
   private final Scanner scanner = new Scanner(System.in);
@@ -23,14 +24,17 @@ public class BibliotecaApp {
   public BibliotecaApp() {
 
     bookList = new Menu.Builder().code(Menu.OPTIONAL_BOOKLIST).title("List of books").build();
-    checkOutBook = new Menu.Builder().code(Menu.OPTIONAL_CHECKOUT).title("Checkout a book").build();
-    returnBook = new Menu.Builder().code(Menu.OPTIONAL_RETURN).title("Return abook").build();
+    checkOutBook = new Menu.Builder().code(Menu.OPTIONAL_CHECKOUTBOOK).title("Checkout a book")
+        .build();
+    returnBook = new Menu.Builder().code(Menu.OPTIONAL_RETURNBOOK).title("Return a book").build();
+    movieList = new Menu.Builder().code(Menu.OPTIONAL_MOVIELIST).title("List of movies").build();
     quit = new Menu.Builder().code(Menu.OPTIONAL_QUIT).title("Quit").build();
 
     applicationService = new ApplicationService.Builder()
         .addMenu(bookList)
         .addMenu(checkOutBook)
         .addMenu(returnBook)
+        .addMenu(movieList)
         .addMenu(quit)
         .build();
 
@@ -58,6 +62,14 @@ public class BibliotecaApp {
       }
     });
 
+    movieList.setSelectListener(new OnMenuSelectListener() {
+      @Override
+      public void onMenuSelect(Menu menu) {
+        printAllMovieList();
+        inputOptional();
+      }
+    });
+
     quit.setSelectListener(new OnMenuSelectListener() {
       @Override
       public void onMenuSelect(Menu menu) {
@@ -79,6 +91,11 @@ public class BibliotecaApp {
     } while (menu == null);
 
     menu.select();
+  }
+
+  private void printAllMovieList() {
+    System.out.println("All library movies: ");
+    applicationService.findAllMovieList().forEach(System.out::println);
   }
 
   public void returnBook() {
