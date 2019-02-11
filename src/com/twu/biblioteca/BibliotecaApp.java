@@ -16,7 +16,9 @@ public class BibliotecaApp {
     printMenu();
 
     Scanner scan = new Scanner(System.in);
-    executeMenuSelection(scan);
+    while (true) {
+      executeMenuSelection(scan);
+    }
   }
 
   private static void executeMenuSelection(Scanner scan) {
@@ -24,6 +26,10 @@ public class BibliotecaApp {
       switch (scan.next()) {
         case OPTIONAL_1:
           printAllBookList();
+          break;
+        case OPTIONAL_QUIT:
+          scan.close();
+          break;
         default:
           System.out.println("Please select a valid option!");
       }
