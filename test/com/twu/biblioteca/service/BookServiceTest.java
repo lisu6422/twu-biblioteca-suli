@@ -6,9 +6,9 @@ import com.twu.biblioteca.resource.Book;
 import java.util.List;
 import org.junit.Test;
 
-public class ApplicationServiceTest {
+public class BookServiceTest {
 
-  private ApplicationService service = new ApplicationService.Builder().build();
+  private BookService service = new BookService.Builder().build();
 
   @Test
   public void shouldFindBookByIdSuccess() {

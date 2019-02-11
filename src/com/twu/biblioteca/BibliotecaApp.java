@@ -3,12 +3,12 @@ package com.twu.biblioteca;
 import com.twu.biblioteca.resource.Book;
 import com.twu.biblioteca.resource.Menu;
 import com.twu.biblioteca.resource.Menu.OnMenuSelectListener;
-import com.twu.biblioteca.service.ApplicationService;
+import com.twu.biblioteca.service.BookService;
 import java.util.Scanner;
 
 public class BibliotecaApp {
 
-  private ApplicationService applicationService;
+  private BookService bookService;
   private Menu bookList;
   private Menu checkOutBook;
   private Menu returnBook;
@@ -27,7 +27,7 @@ public class BibliotecaApp {
     returnBook = new Menu.Builder().code(Menu.OPTIONAL_RETURN).title("Return abook").build();
     quit = new Menu.Builder().code(Menu.OPTIONAL_QUIT).title("Quit").build();
 
-    applicationService = new ApplicationService.Builder()
+    bookService = new BookService.Builder()
         .addMenu(bookList)
         .addMenu(checkOutBook)
         .addMenu(returnBook)
@@ -61,7 +61,7 @@ public class BibliotecaApp {
     quit.setSelectListener(new OnMenuSelectListener() {
       @Override
       public void onMenuSelect(Menu menu) {
-        applicationService.stop();
+        bookService.stop();
       }
     });
   }
@@ -75,7 +75,7 @@ public class BibliotecaApp {
     Menu menu;
     do {
       printMenu();
-      menu = applicationService.getOptionalMenu(scanner.nextInt());
+      menu = bookService.getOptionalMenu(scanner.nextInt());
     } while (menu == null);
 
     menu.select();
@@ -85,9 +85,9 @@ public class BibliotecaApp {
     System.out.println("Book id:");
     while (scanner.hasNext()) {
       long bookId = scanner.nextLong();
-      Book selectedBook = applicationService.findBookById(bookId);
-      if (applicationService.validReturnedBook(selectedBook)) {
-        applicationService.changeBookStatus(selectedBook);
+      Book selectedBook = bookService.findBookById(bookId);
+      if (bookService.validReturnedBook(selectedBook)) {
+        bookService.changeBookStatus(selectedBook);
         System.out.println("Thank you for returning the book.");
         return;
       } else {
@@ -101,9 +101,9 @@ public class BibliotecaApp {
     System.out.println("Book id:");
     while (scanner.hasNext()) {
       long bookId = scanner.nextLong();
-      Book selectedBook = applicationService.findBookById(bookId);
-      if (applicationService.validCheckedOutBook(selectedBook)) {
-        applicationService.changeBookStatus(selectedBook);
+      Book selectedBook = bookService.findBookById(bookId);
+      if (bookService.validCheckedOutBook(selectedBook)) {
+        bookService.changeBookStatus(selectedBook);
         System.out.println("Thank you! Enjoy the book.");
         return;
       } else {
@@ -115,12 +115,12 @@ public class BibliotecaApp {
 
   private void printMenu() {
     System.out.println("*************menu*************");
-    applicationService.getMenus().forEach(System.out::println);
+    bookService.getMenus().forEach(System.out::println);
   }
 
   private void printAllBookList() {
     System.out.println("All library books: ");
-    applicationService.findAllBookList().forEach(System.out::println);
+    bookService.findAllBookList().forEach(System.out::println);
   }
 
   private void printWelcomeMessage() {

@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ApplicationService {
+public class BookService {
 
   private final List<Menu> menus;
   private final Map<Integer, Menu> menuMap = new HashMap<>();
   private final BibliotecaResource resource = BibliotecaResource.getInstance();
 
-  public ApplicationService(Builder builder) {
+  public BookService(Builder builder) {
     this.menus = builder.menus;
     menus.forEach(it -> menuMap.put(it.getCode(), it));
   }
@@ -59,8 +59,8 @@ public class ApplicationService {
       return this;
     }
 
-    public ApplicationService build() {
-      return new ApplicationService(this);
+    public BookService build() {
+      return new BookService(this);
     }
   }
 
