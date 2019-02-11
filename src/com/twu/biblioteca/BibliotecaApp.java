@@ -1,8 +1,8 @@
 package com.twu.biblioteca;
 
 import com.twu.biblioteca.resource.BibliotecaResource;
+import com.twu.biblioteca.resource.Book;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class BibliotecaApp {
 
@@ -45,13 +45,12 @@ public class BibliotecaApp {
     System.out.println("Book id:");
     if (scan.hasNext()) {
       long boolId = scan.nextLong();
-      resource.getBookList().stream().map(book -> {
-        if (book.getId().equals(boolId)) {
-          book.setStatus("checked out");
-          System.out.println("Thank you! Enjoy the book.");
-        }
-        return book;
-      }).collect(Collectors.toList());
+      Book selectedBook = resource.getBookList().stream()
+          .filter(book -> book.getId().equals(boolId)).findFirst().orElse(null);
+      if (selectedBook != null && selectedBook.getStatus().equals("returned")) {
+        selectedBook.setStatus("checked out");
+        System.out.println("Thank you! Enjoy the book.");
+      }
     }
   }
 
