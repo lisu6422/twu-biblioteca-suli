@@ -3,6 +3,7 @@ package com.twu.biblioteca;
 import com.twu.biblioteca.resource.Book;
 import com.twu.biblioteca.resource.Menu;
 import com.twu.biblioteca.resource.Menu.OnMenuSelectListener;
+import com.twu.biblioteca.resource.Movie;
 import com.twu.biblioteca.service.ApplicationService;
 import java.util.Scanner;
 
@@ -13,6 +14,7 @@ public class BibliotecaApp {
   private Menu checkOutBook;
   private Menu returnBook;
   private Menu movieList;
+  private Menu checkOutMovie;
   private Menu quit;
 
   private final Scanner scanner = new Scanner(System.in);
@@ -28,6 +30,8 @@ public class BibliotecaApp {
         .build();
     returnBook = new Menu.Builder().code(Menu.OPTIONAL_RETURNBOOK).title("Return a book").build();
     movieList = new Menu.Builder().code(Menu.OPTIONAL_MOVIELIST).title("List of movies").build();
+    checkOutMovie = new Menu.Builder().code(Menu.OPTIONAL_CHECKOUTMOVIE).title("Checkout a movie")
+        .build();
     quit = new Menu.Builder().code(Menu.OPTIONAL_QUIT).title("Quit").build();
 
     applicationService = new ApplicationService.Builder()
@@ -35,6 +39,7 @@ public class BibliotecaApp {
         .addMenu(checkOutBook)
         .addMenu(returnBook)
         .addMenu(movieList)
+        .addMenu(checkOutMovie)
         .addMenu(quit)
         .build();
 
@@ -70,6 +75,14 @@ public class BibliotecaApp {
       }
     });
 
+    checkOutMovie.setSelectListener(new OnMenuSelectListener() {
+      @Override
+      public void onMenuSelect(Menu menu) {
+        checkOutMovie();
+        inputOptional();
+      }
+    });
+
     quit.setSelectListener(new OnMenuSelectListener() {
       @Override
       public void onMenuSelect(Menu menu) {
@@ -91,6 +104,22 @@ public class BibliotecaApp {
     } while (menu == null);
 
     menu.select();
+  }
+
+  public void checkOutMovie() {
+    System.out.println("Movie id:");
+    while (scanner.hasNext()) {
+      long movieId = scanner.nextLong();
+      Movie selectedMovie = applicationService.findMovieById(movieId);
+      if (applicationService.validCheckedOutMovie(selectedMovie)) {
+        applicationService.changeMovieStatus(selectedMovie);
+        System.out.println("Thank you! Enjoy the movie.");
+        return;
+      } else {
+        System.out.println("Sorry, that movie is not available.");
+        System.out.println("Movie id:");
+      }
+    }
   }
 
   private void printAllMovieList() {

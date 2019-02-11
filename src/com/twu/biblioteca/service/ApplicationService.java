@@ -52,6 +52,20 @@ public class ApplicationService {
         .collect(Collectors.toList());
   }
 
+  public Movie findMovieById(long movieId) {
+    return resource.getMovieList().stream()
+        .filter(movie -> movie.getId().equals(movieId)).findFirst().orElse(null);
+  }
+
+  public boolean validCheckedOutMovie(Movie movie) {
+    return movie != null && !movie.getCheckedOut();
+  }
+
+  public void changeMovieStatus(Movie movie) {
+    movie.setCheckedOut(!movie.getCheckedOut());
+  }
+
+
   public void stop() {
 
   }

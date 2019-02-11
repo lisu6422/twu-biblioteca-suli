@@ -6,6 +6,7 @@ public class Menu {
   public static final int OPTIONAL_CHECKOUTBOOK = 2;
   public static final int OPTIONAL_RETURNBOOK = 3;
   public static final int OPTIONAL_MOVIELIST = 4;
+  public static final int OPTIONAL_CHECKOUTMOVIE = 5;
   public static final int OPTIONAL_QUIT = 0;
 
   private Integer code;
