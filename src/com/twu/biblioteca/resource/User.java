@@ -22,6 +22,9 @@ public class User {
     this.type = type;
   }
 
+  public User() {
+  }
+
   public Long getId() {
     return id;
   }
@@ -58,7 +61,6 @@ public class User {
   public String toString() {
     return "id=" + id +
         ", userName='" + userName + '\'' +
-        ", password='" + password + '\'' +
         ", type='" + type + '\'' + '\n';
   }
 

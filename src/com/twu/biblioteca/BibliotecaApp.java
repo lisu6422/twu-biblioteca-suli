@@ -6,13 +6,15 @@ import com.twu.biblioteca.resource.Menu.OnMenuSelectListener;
 import com.twu.biblioteca.resource.Movie;
 import com.twu.biblioteca.resource.User;
 import com.twu.biblioteca.service.ApplicationService;
-import com.twu.biblioteca.service.LoginService;
+import com.twu.biblioteca.service.CheckOutItemService;
+import com.twu.biblioteca.service.UserService;
 import java.util.Scanner;
 
 public class BibliotecaApp {
 
   private ApplicationService applicationService;
-  private LoginService loginService = new LoginService();
+  private UserService userService = new UserService();
+  private CheckOutItemService checkOutItemService = new CheckOutItemService();
   private Menu bookList;
   private Menu checkOutBook;
   private Menu returnBook;
@@ -105,12 +107,21 @@ public class BibliotecaApp {
   private void start() {
     printWelcomeMessage();
     User loginedUser = login();
-    inputOptional();
+    if (loginedUser.getType().equals("librarian")) {
+      printAllBorrowers();
+    } else {
+      inputOptional();
+    }
+  }
+
+  private void printAllBorrowers() {
+    System.out.println("All users who has checked out a book:");
+    checkOutItemService.findAllUsersInCheckOutItem().forEach(System.out::println);
   }
 
   private User login() {
     User user = getLoginInfo();
-    while (!loginService.login(user)) {
+    while (!userService.validUser(user)) {
       System.out.println("Login information error! Please input again.");
       user = getLoginInfo();
     }
