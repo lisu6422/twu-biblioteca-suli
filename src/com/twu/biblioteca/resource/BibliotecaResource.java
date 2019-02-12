@@ -19,10 +19,10 @@ public class BibliotecaResource {
           new Movie(4L, "Day of the Dead", "2015", "Nandini Carmack", "5", false));
 
   private List<User> userList = Arrays.asList(
-      new User(1L, "Anand Li", "123456", "customer"),
-      new User(2L, "Julian Huang", "123456", "customer"),
-      new User(3L, "'Julian Schneider", "123456", "customer"),
-      new User(4L, "Judy Singh", "123456", "librarian"));
+      new User(1L, "Anand Li", "123456", "customer", "AnandLi@google.com", "123-456789"),
+      new User(2L, "Julian Huang", "123456", "customer", "JulianHuang@google.com", "123-456789"),
+      new User(3L, "Julian Schneider", "123456", "customer", "JulianSchneider@google.com", "123-456789"),
+      new User(4L, "Judy Singh", "123456", "librarian", "JudySingh@google.com", "123-456789"));
 
   private List<CheckoutItem> checkoutItemList = Arrays.asList(new CheckoutItem(1L, 1L));
 

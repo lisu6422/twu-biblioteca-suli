@@ -20,9 +20,11 @@ public class BibliotecaApp {
   private Menu returnBook;
   private Menu movieList;
   private Menu checkOutMovie;
+  private Menu userInfo;
   private Menu quit;
 
   private final Scanner scanner = new Scanner(System.in);
+  private User loginedUser;
 
   public static void main(String[] args) {
     new BibliotecaApp().start();
@@ -76,6 +78,14 @@ public class BibliotecaApp {
       }
     });
 
+    userInfo.setSelectListener(new OnMenuSelectListener() {
+      @Override
+      public void onMenuSelect(Menu menu) {
+        printUserInfo(loginedUser);
+        inputOptional();
+      }
+    });
+
     quit.setSelectListener(new OnMenuSelectListener() {
       @Override
       public void onMenuSelect(Menu menu) {
@@ -92,6 +102,8 @@ public class BibliotecaApp {
     movieList = new Menu.Builder().code(Menu.OPTIONAL_MOVIELIST).title("List of movies").build();
     checkOutMovie = new Menu.Builder().code(Menu.OPTIONAL_CHECKOUTMOVIE).title("Checkout a movie")
         .build();
+    userInfo = new Menu.Builder().code(Menu.OPTIONAL_USERINFO).title("My user information")
+        .build();
     quit = new Menu.Builder().code(Menu.OPTIONAL_QUIT).title("Quit").build();
 
     applicationService = new ApplicationService.Builder()
@@ -100,18 +112,24 @@ public class BibliotecaApp {
         .addMenu(returnBook)
         .addMenu(movieList)
         .addMenu(checkOutMovie)
+        .addMenu(userInfo)
         .addMenu(quit)
         .build();
   }
 
   private void start() {
     printWelcomeMessage();
-    User loginedUser = login();
+    loginedUser = login();
     if (loginedUser.getType().equals("librarian")) {
       printAllBorrowers();
     } else {
       inputOptional();
     }
+  }
+
+  private void printUserInfo(User loginedUser) {
+    System.out.println("My user information:");
+    System.out.println(loginedUser);
   }
 
   private void printAllBorrowers() {
@@ -121,11 +139,12 @@ public class BibliotecaApp {
 
   private User login() {
     User user = getLoginInfo();
-    while (!userService.validUser(user)) {
+    loginedUser = userService.findUser(user);
+    while (loginedUser == null) {
       System.out.println("Login information error! Please input again.");
       user = getLoginInfo();
     }
-    return user;
+    return loginedUser;
   }
 
   private User getLoginInfo() {

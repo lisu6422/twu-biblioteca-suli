@@ -3,6 +3,7 @@ package com.twu.biblioteca.service;
 import static org.junit.Assert.assertEquals;
 
 import com.twu.biblioteca.resource.User;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class UserServiceTest {
@@ -11,14 +12,14 @@ public class UserServiceTest {
 
   @Test
   public void shouldReturnTrueWithValidUserInfoSuccess() {
-    boolean result = service.validUser(new User("Judy Singh", "123456", "librarian"));
-    assertEquals(true, result);
+    User result = service.findUser(new User("Judy Singh", "123456", "librarian"));
+    Assert.assertNotEquals(null, result);
   }
 
   @Test
   public void shouldReturnFalseWithInValidUserInfoSuccess() {
-    boolean result = service.validUser(new User("Judy Singh", "", "customer"));
-    assertEquals(false, result);
+    User result = service.findUser(new User("Judy Singh", "", "customer"));
+    assertEquals(null, result);
   }
 
   @Test

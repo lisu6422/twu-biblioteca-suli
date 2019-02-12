@@ -8,12 +8,17 @@ public class User {
   private String userName;
   private String password;
   private String type;
+  private String email;
+  private String phoneNumber;
 
-  public User(Long id, String userName, String password, String type) {
+  public User(Long id, String userName, String password, String type, String email,
+      String phoneNumber) {
     this.id = id;
     this.userName = userName;
     this.password = password;
     this.type = type;
+    this.email = email;
+    this.phoneNumber = phoneNumber;
   }
 
   public User(String userName, String password, String type) {
@@ -61,6 +66,8 @@ public class User {
   public String toString() {
     return "id=" + id +
         ", userName='" + userName + '\'' +
+        ", email='" + email + '\'' +
+        ", phoneNumber='" + phoneNumber + '\'' +
         ", type='" + type + '\'' + '\n';
   }
 

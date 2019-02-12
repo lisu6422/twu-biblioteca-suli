@@ -7,9 +7,9 @@ public class UserService {
 
   private final BibliotecaResource resource = BibliotecaResource.getInstance();
 
-  public boolean validUser(User user) {
+  public User findUser(User user) {
     return resource.getUserList().stream().filter(item -> item.equals(user)).findFirst()
-        .isPresent();
+        .orElse(null);
   }
 
   public User findUserById(Long id) {
