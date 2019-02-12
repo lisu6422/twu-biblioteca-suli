@@ -4,12 +4,15 @@ import com.twu.biblioteca.resource.Book;
 import com.twu.biblioteca.resource.Menu;
 import com.twu.biblioteca.resource.Menu.OnMenuSelectListener;
 import com.twu.biblioteca.resource.Movie;
+import com.twu.biblioteca.resource.User;
 import com.twu.biblioteca.service.ApplicationService;
+import com.twu.biblioteca.service.LoginService;
 import java.util.Scanner;
 
 public class BibliotecaApp {
 
   private ApplicationService applicationService;
+  private LoginService loginService = new LoginService();
   private Menu bookList;
   private Menu checkOutBook;
   private Menu returnBook;
@@ -101,7 +104,34 @@ public class BibliotecaApp {
 
   private void start() {
     printWelcomeMessage();
+    User loginedUser = login();
     inputOptional();
+  }
+
+  private User login() {
+    User user = getLoginInfo();
+    while (!loginService.login(user)) {
+      System.out.println("Login information error! Please input again.");
+      user = getLoginInfo();
+    }
+    return user;
+  }
+
+  private User getLoginInfo() {
+    System.out.println("userName:");
+    String userName = null, password = null, type = null;
+    if (scanner.hasNextLine()) {
+      userName = scanner.nextLine();
+      System.out.println("password:");
+    }
+    if (scanner.hasNextLine()) {
+      password = scanner.nextLine();
+      System.out.println("type:");
+    }
+    if (scanner.hasNextLine()) {
+      type = scanner.nextLine();
+    }
+    return new User(userName, password, type);
   }
 
   public void inputOptional() {

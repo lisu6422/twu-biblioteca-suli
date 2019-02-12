@@ -12,11 +12,17 @@ public class BibliotecaResource {
           new Book(3L, "Two Towers", "Sneha Wang", "2017", false),
           new Book(4L, "Dune", "Judy Li", "2016", false));
 
-  protected List<Movie> movieList = Arrays
+  private List<Movie> movieList = Arrays
       .asList(new Movie(1L, "Life of Brian", "2018", "Schweta Jain", "6", false),
           new Movie(2L, "Airplane", "2017", "Naval Hunt", "8", false),
           new Movie(3L, "Rush", "2019", "Tanuj Listov", "0", false),
           new Movie(4L, "Day of the Dead", "2015", "Nandini Carmack", "5", false));
+
+  private List<User> userList = Arrays.asList(
+      new User(1L, "Anand Li", "123456", "customer"),
+      new User(2L, "Julian Huang", "123456", "customer"),
+      new User(3L, "'Julian Schneider", "123456", "customer"),
+      new User(4L, "Judy Singh", "123456", "customer"));
 
   private BibliotecaResource() {
   }
@@ -31,5 +37,9 @@ public class BibliotecaResource {
 
   public List<Movie> getMovieList() {
     return movieList;
+  }
+
+  public List<User> getUserList() {
+    return userList;
   }
 }
